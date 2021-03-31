@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let speed = 0.9;
     let intervalTime = 0;
     let interval = 0;
+    let lastArrow = "ArrowLeft";
 
     function startGame() {
         currentSnake.forEach(index => squares[index].classList.remove('snake'))
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         intervalTime = 1000;
         currentSnake = [2, 1, 0];
         currentIndex = 0;
+        lastArrow = "ArrowLeft";
         currentSnake.forEach(index => squares[index].classList.add('snake'));
         interval = setInterval(moveOutComes, intervalTime);
     }
@@ -70,15 +72,38 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[currentIndex].classList.remove('snake');
         var key = e.key;
         if (arrows[key]) {
-            arrows[key]()
+            arrows[key](key)
         }
     }
-
+    
     const arrows = {
-        ArrowDown() { direction = + width },
-        ArrowUp() { direction = -width; },
-        ArrowLeft() { direction = - 1; },
-        ArrowRight() { direction = 1; }
+        ArrowDown(key) {
+            if (key !== lastArrow)
+                {
+                    direction = + width
+                    lastArrow = "ArrowUp"
+                }
+        },
+        ArrowUp(key) {
+            if (key !== lastArrow)
+                {
+                    direction = -width;
+                    lastArrow = "ArrowDown"
+                }
+        },
+        ArrowLeft(key) {
+            if (key !== lastArrow)
+            {
+                direction = - 1;
+                lastArrow = "ArrowRight"
+            }
+        },
+        ArrowRight(key) {
+            if (key !== lastArrow){
+                direction = 1;
+                lastArrow = "ArrowLeft"
+            }
+        }
     };
 
     document.addEventListener('keyup', control);
